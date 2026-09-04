@@ -1,11 +1,11 @@
 <script lang="ts">
   import { authStore } from '../lib/authStore';
-  import { router } from 'tinro';
+  import { goto } from 'svelte-pathfinder';
 
   $: ({ user, loading } = $authStore);
 
   $: if (!loading && !user) {
-    router.goto('/login');
+    goto('/login');
   }
 </script>
 

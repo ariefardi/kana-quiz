@@ -1,43 +1,41 @@
 <script lang="ts">
+  import { path } from 'svelte-pathfinder';
   import { authStore, logout } from '../lib/authStore';
-  import { Link } from 'svelte-routing';
 
   $: user = $authStore.user;
+  $: currentPath = $path[0] ?? '';
 </script>
 
 <nav class="bg-slate-800 border-b border-slate-700 px-6 py-3.5 flex items-center justify-between shadow-md">
   <!-- Brand Logo -->
-  <Link to="/" class="flex items-center gap-2 cursor-pointer">
+  <a href="/" class="flex items-center gap-2 cursor-pointer">
     <span class="text-2xl font-black text-emerald-400 tracking-wider">仮名</span>
     <span class="text-lg font-bold text-white tracking-wide">Kana Quiz</span>
-  </Link>
+  </a>
 
   <!-- Menu Navigation (Khusus User Login) -->
   {#if user}
     <div class="hidden md:flex items-center gap-6 text-sm font-medium">
-      <Link 
-        to="/" 
-        class="text-slate-300 hover:text-emerald-400 transition-colors cursor-pointer"
-        getProps={({ isCurrent }) => ({ class: isCurrent ? 'text-emerald-400 font-bold' : 'text-slate-300 hover:text-emerald-400' })}
+      <a
+        href="/"
+        class="transition-colors cursor-pointer {currentPath === '' ? 'text-emerald-400 font-bold' : 'text-slate-300 hover:text-emerald-400'}"
       >
         Home
-      </Link>
-      
-      <Link
-        to="/quiz"
-        class="text-slate-300 hover:text-emerald-400 transition-colors cursor-pointer"
-        getProps={({ isCurrent }) => ({ class: isCurrent ? 'text-emerald-400 font-bold' : 'text-slate-300 hover:text-emerald-400' })}
+      </a>
+
+      <a
+        href="/quiz"
+        class="transition-colors cursor-pointer {currentPath === 'quiz' ? 'text-emerald-400 font-bold' : 'text-slate-300 hover:text-emerald-400'}"
       >
         Kuis
-      </Link>
+      </a>
 
-      <Link
-        to="/leaderboard"
-        class="text-slate-300 hover:text-emerald-400 transition-colors cursor-pointer"
-        getProps={({ isCurrent }) => ({ class: isCurrent ? 'text-emerald-400 font-bold' : 'text-slate-300 hover:text-emerald-400' })}
+      <a
+        href="/leaderboard"
+        class="transition-colors cursor-pointer {currentPath === 'leaderboard' ? 'text-emerald-400 font-bold' : 'text-slate-300 hover:text-emerald-400'}"
       >
         Leaderboard
-      </Link>
+      </a>
     </div>
 
     <!-- Profile & Logout -->

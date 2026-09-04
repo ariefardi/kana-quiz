@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { path } from 'svelte-pathfinder';
+  import { path, click } from 'svelte-pathfinder';
   import { authStore } from './lib/authStore';
   import Navbar from './components/Navbar.svelte';
   import ProtectedRoute from './components/ProtectedRoute.svelte';
@@ -8,17 +8,19 @@
   import QuizPage from './pages/QuizPage.svelte';
 
   $: ({ user, loading } = $authStore);
-  
-  // Ambil path string utama
-  $: currentPath = $path.toString();
+
+  // Ambil segmen pertama dari path
+  $: currentPath = $path[0] ?? '';
 </script>
+
+<svelte:window on:click={click} />
 
 <div class="min-h-screen bg-slate-900 text-slate-100 font-sans">
   <Navbar />
 
-  {#if currentPath === '/login'}
+  {#if currentPath === 'login'}
     <LoginPage />
-  {:else if currentPath === '/quiz'}
+  {:else if currentPath === 'quiz'}
     <ProtectedRoute>
       <QuizPage />
     </ProtectedRoute>
